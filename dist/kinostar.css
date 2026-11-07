@@ -1,0 +1,117 @@
+:root { --purple:#4a148c; --orange:#ff3d00; --paper:#fff; --ink:#202020; --muted:#797780; }
+body { background:#fff; color:#202020; }
+.app-shell { background:#fff; max-width:none; }
+.kino-header { background:#4a148c; color:#fff; }
+.header-inner { max-width:1256px; padding:20px 32px; margin:auto; min-height:112px; display:flex; align-items:center; gap:40px; }
+.kino-logo img { width:164px; height:76px; object-fit:contain; display:block; }
+.cinema-address { display:grid; gap:5px; font-size:13px; color:#e5d7f7; }
+.cinema-address b { font-size:17px; color:#fff; }
+.ticket-help { margin-left:auto; font-size:12px; color:#e8dcf5; text-decoration:none; }
+.official-link { background:#ff3d00; color:#fff; text-decoration:none; font-size:12px; padding:12px 18px; border-radius:24px; white-space:nowrap; }
+.kino-nav { border-bottom:1px solid #e9e8eb; background:#fff; }
+.kino-nav > div { max-width:1256px; padding:0 32px; margin:auto; display:flex; align-items:center; gap:30px; }
+.kino-nav button, .kino-nav a { padding:20px 0 17px; border:0; background:transparent; border-bottom:3px solid transparent; font:500 14px Manrope,sans-serif; color:#252229; text-decoration:none; white-space:nowrap; cursor:pointer; }
+.kino-nav .active { border-color:#ff3d00; }
+.nav-feature { margin-left:auto; display:flex; gap:8px; align-items:center; font-size:11px; color:#706579; }
+.nav-feature i { font-style:normal; background:#f3eafb; color:#4a148c; border-radius:5px; padding:4px 6px; font-weight:800; }
+.schedule-view { max-width:1256px; padding:0 32px 64px; margin:auto; }
+.calendar-strip { padding:18px 0; display:flex; justify-content:space-between; gap:14px; align-items:center; border-bottom:1px solid #eceaee; }
+#scheduleDates { display:flex; gap:8px; overflow:auto; }
+#scheduleDates button { border:0; background:#f2f1f4; color:#333; padding:10px 19px; border-radius:24px; cursor:pointer; font:600 13px Manrope,sans-serif; white-space:nowrap; }
+#scheduleDates button.active { background:#ff3d00; color:#fff; }
+#scheduleDates small { margin-left:8px; font-weight:400; opacity:.8; }
+#refreshSchedule { border:0; background:transparent; color:#6e627c; font:500 12px Manrope,sans-serif; cursor:pointer; white-space:nowrap; }
+#refreshSchedule:disabled { cursor:wait; opacity:.55; }
+.schedule-heading { display:flex; justify-content:space-between; align-items:center; gap:20px; padding-top:28px; }
+.schedule-heading h1 { margin:0; font-size:36px; letter-spacing:-1.2px; line-height:1.15; }
+#scheduleCount { margin:9px 0 0; color:#716a78; font-size:13px; }
+.film-search { display:flex; align-items:center; gap:10px; border:1px solid #e2dfe6; border-radius:8px; padding:10px 14px; }
+.film-search span { font-size:25px; color:#8c8196; line-height:1; }
+.film-search input { border:0; outline:0; font:13px Manrope,sans-serif; color:#202020; background:transparent; min-width:210px; }
+.schedule-info { display:flex; justify-content:space-between; gap:15px; color:#89828f; font-size:10px; padding:15px 0 20px; }
+.schedule-info p { margin:0; }
+.tour-banner { display:flex; align-items:center; gap:16px; background:#f6f0fb; border:1px solid #e9dff4; border-radius:10px; padding:19px 22px; }
+.tour-icon { color:#fff; background:#4a148c; width:48px; height:48px; border-radius:10px; display:grid; place-items:center; font-size:20px; font-weight:800; }
+.tour-banner b { font-size:16px; color:#3c185d; }
+.tour-banner p { font-size:12px; color:#7c688f; margin:5px 0 0; }
+.tour-banner > span { margin-left:auto; font-size:12px; color:#4a148c; white-space:nowrap; }
+.schedule-filters { display:flex; gap:9px; align-items:center; padding:24px 0; }
+.schedule-filters > button { border:1px solid #e6e2eb; background:white; color:#706778; border-radius:6px; padding:8px 13px; font:12px Manrope,sans-serif; cursor:pointer; }
+.schedule-filters > button.active { color:#4a148c; background:#f4eef9; border-color:#cfb9e5; }
+.schedule-filters label { margin-left:auto; font-size:12px; color:#928a99; display:flex; align-items:center; gap:10px; }
+.schedule-filters select { padding:8px 13px; border:1px solid #e6e2eb; border-radius:6px; background:#fff; color:#54485f; font:12px Manrope,sans-serif; }
+.movie-list { display:grid; grid-template-columns:1fr 1fr; column-gap:34px; }
+.film-card { display:flex; gap:20px; padding:24px 0 28px; border-bottom:1px solid #ebe8ed; }
+.film-poster { width:124px; height:180px; object-fit:cover; border-radius:6px; background:#f3f0f6; flex-shrink:0; }
+.film-content { min-width:0; }
+.film-badges { display:flex; gap:5px; flex-wrap:wrap; }
+.film-badges span { padding:3px 7px; border-radius:3px; background:#ff3d00; color:#fff; font-size:10px; }
+.film-content h2 { margin:8px 0 7px; font-size:21px; font-weight:700; letter-spacing:-.6px; line-height:1.25; }
+.film-genres { margin:0 0 17px; font-size:11px; line-height:1.8; color:#8b858e; }
+.film-genres > span { display:inline-block; background:#f1f0f3; border-radius:4px; padding:1px 5px; color:#79717f; margin-right:5px; }
+.showtimes { display:flex; gap:12px 8px; flex-wrap:wrap; }
+.showtime { padding:0; border:0; background:none; min-width:80px; font-family:Manrope,sans-serif; cursor:pointer; text-align:center; }
+.showtime b { display:block; background:#ff3d00; border:1px solid #ff3d00; border-radius:5px 5px 0 0; color:#fff; padding:6px 10px; font-size:17px; line-height:1.2; }
+.showtime > span { display:block; border:1px solid #ff3d00; border-radius:0 0 3px 3px; border-top:0; font-size:9px; color:#8d8593; line-height:1.6; padding:1px 3px; }
+.showtime em { font-style:normal; color:#51485a; }
+.showtime small { display:block; padding-top:4px; color:#8b8294; font-size:9px; }
+.showtime:hover b { background:#dc3200; border-color:#dc3200; }
+.film-details { display:inline-block; margin-top:13px; font-size:10px; color:#8b7b98; text-decoration:none; }
+.chronological { display:block; }
+.session-row { display:flex; align-items:center; gap:22px; padding:20px 0; border-bottom:1px solid #eeeaf2; }
+.session-clock { font-size:23px; font-weight:750; color:#4a148c; width:76px; }
+.session-row img { width:45px; height:64px; border-radius:4px; object-fit:cover; }
+.session-film { flex:1; }
+.session-film h2 { margin:0 0 6px; font-size:18px; line-height:1.3; }
+.session-film p { font-size:11px; color:#827689; margin:0; }
+.session-facts { display:grid; gap:6px; font-size:12px; color:#6f617c; min-width:130px; }
+.session-facts b { color:#3d3245; }
+.session-open, #resetFilters { background:#ff3d00; color:white; border:0; padding:12px 16px; border-radius:6px; font:600 12px Manrope,sans-serif; cursor:pointer; }
+#scheduleEmpty { padding:50px 0; text-align:center; color:#7b6d86; }
+.kino-footer { background:#f5f3f7; border-top:1px solid #e6dfee; padding:42px max(32px,calc((100vw - 1192px)/2)); display:grid; grid-template-columns:180px 1fr 1fr; gap:32px; color:#6e607b; font:12px/1.7 Manrope,sans-serif; }
+.kino-footer img { width:145px; }
+.kino-footer b { font-size:14px; color:#3a284b; }
+.kino-footer a { color:#7c5c97; }
+#hallView { max-width:1256px; margin:auto; }
+.hall-back { padding:25px 32px 0; display:flex; align-items:center; gap:25px; font-size:11px; color:#9c8ca7; }
+.hall-back button { border:0; background:#f5effa; color:#4a148c; border-radius:5px; padding:9px 14px; cursor:pointer; }
+.movie-bar { padding:25px 32px; border-color:#ebe7ef; }
+.movie-poster { object-fit:cover; border-radius:5px; background:#f3eff5; padding:0; }
+.movie-info h1 { font-size:26px; }
+.movie-info p,.session-picker small,.session-picker span { color:#93869d; }
+.session-picker { border-color:#e4dce9; }
+.session-picker strong { color:#4a148c; }
+.workspace { padding:24px 32px 50px; }
+.demo-note { color:#7d628f; background:#f6f0fa; border-radius:7px; padding:13px 17px; font-size:12px; line-height:1.6; margin:0 0 26px; }
+.section-heading h2 { color:#352241; font-size:30px; letter-spacing:-1px; }
+.eyebrow { color:#9b8aa7; text-transform:none; font-family:Manrope,sans-serif; letter-spacing:0; }
+.legend { color:#8b7c95; }
+.legend .available { background:#7b6b88; }
+.legend .taken { background:#ddd5e4; }
+.map-card { background:#f8f6fa; border:1px solid #e8e0ef; border-radius:10px; }
+.view-card { background:#fff; border:1px solid #e8e0ef; border-radius:10px; }
+.screen { background:#7c6093; color:#fff; }
+.screen-glow { background:radial-gradient(ellipse,#a878d428,transparent 68%); }
+.seat { background:#9b85ae; }
+.seat.taken { background:#e3dce8; }
+.seat:hover { background:#674183; }
+.seat.selected { background:#ff3d00; }
+.row-label,.map-footer { color:#a08cad; }
+.quality-pill { color:#4a148c; border-color:#e5d9ee; }
+.quality-dot { background:#714594; }
+.view-stats,.view-stats div,.checkout { border-color:#eee7f2; }
+.view-stats span,.checkout span { color:#97849f; }
+.view-stats b,.checkout strong { color:#4a148c; }
+.recommendation { color:#95859f; }
+.checkout { align-items:center; gap:10px; }
+.checkout strong { font-size:23px; white-space:nowrap; }
+.checkout a { background:#ff3d00; color:#fff; padding:13px; border-radius:5px; text-decoration:none; font-size:12px; font-weight:700; white-space:nowrap; }
+.booking-note { font-size:10px; color:#9a8ca4; line-height:1.5; margin-bottom:0; }
+.theater-view { border-radius:6px; color:#fff; }
+.view-caption { color:#fff; }
+.walk-button { color:#fff; border-color:#ff3d00; border-radius:5px; }
+.walk-button:hover { background:#d93400; color:#fff; }
+.walk-mode .walk-prompt button { color:#141517; }
+@media(min-width:901px) { #hallView .seat-layout { grid-template-columns:minmax(0,1fr) 340px; } }
+@media(max-width:1000px) { .nav-feature { display:none; } .header-inner { gap:24px; } .ticket-help { display:none; } .official-link { margin-left:auto; } .movie-list { column-gap:24px; } .film-poster { width:92px; height:138px; } .film-card { gap:14px; } .film-content h2 { font-size:19px; } .tour-banner > span { display:none; } .seat-layout { grid-template-columns:1fr; } }
+@media(max-width:720px) { .header-inner { padding:15px 20px; min-height:94px; } .kino-logo img { width:130px; height:62px; } .cinema-address { display:none; } .official-link { font-size:10px; padding:10px 14px; } .kino-nav > div { padding:0 20px; gap:24px; overflow:auto; } .kino-nav a,.kino-nav button { font-size:12px; padding:15px 0 12px; } .schedule-view { padding:0 20px 40px; } .schedule-heading { align-items:flex-start; flex-direction:column; gap:16px; } .schedule-heading h1 { font-size:30px; } .film-search { width:100%; } .film-search input { width:100%; min-width:0; } .schedule-info { line-height:1.5; } .schedule-info > span { display:none; } .movie-list { grid-template-columns:1fr; } .tour-banner { padding:15px; gap:12px; } .tour-banner b { font-size:13px; } .tour-banner p { font-size:11px; } .tour-icon { flex-shrink:0; width:40px; height:40px; font-size:17px; } .schedule-filters { flex-wrap:wrap; gap:6px; padding-bottom:10px; } .schedule-filters > button { font-size:11px; padding:7px 10px; } .schedule-filters label { width:100%; margin:9px 0 0; } .film-card { gap:16px; } .film-poster { width:90px; height:134px; } .film-content h2 { font-size:20px; } .film-genres { font-size:10px; } .showtime { min-width:74px; } .kino-footer { padding:30px 20px; grid-template-columns:1fr; gap:20px; } .session-row { gap:12px; flex-wrap:wrap; } .session-clock { width:65px; font-size:20px; } .session-row img { display:none; } .session-film h2 { font-size:16px; } .session-film { min-width:calc(100% - 80px); } .session-facts { margin-left:77px; min-width:0; flex:1; } .session-open { padding:10px; font-size:11px; } .movie-bar { padding:20px; } .movie-info h1 { font-size:20px; } .workspace { padding:20px; } .hall-back { padding:20px 20px 0; } .hall-back > span { display:none; } .section-heading h2 { font-size:26px; } }

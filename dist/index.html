@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Киностар — афиша, сеансы и прогулка по залу</title>
+  <link rel="icon" type="image/svg+xml" href="assets/kinostar-logo.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="kinostar.css" />
+  <link rel="stylesheet" href="commerce.css" />
+  <link rel="stylesheet" href="account.css" />
+  <link rel="stylesheet" href="walk.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="kino-header">
+      <div class="header-inner"><a class="kino-logo" href="#afisha" aria-label="Киностар — афиша"><img src="assets/kinostar-logo.svg" alt="Киностар"></a>
+        <div class="cinema-address"><b>Грозный</b><span>Грозный Молл · пр. Путина, 40</span></div>
+        <a class="ticket-help" href="https://kinostar-groznymall.com/refund?cinemaID=8436" target="_blank" rel="noopener">Мне не пришёл билет</a>
+        <a class="official-link" href="https://kinostar-groznymall.com/" target="_blank" rel="noopener">Сайт кинотеатра ↗</a>
+        <button id="accountButton" class="account-button">Войти / Регистрация</button>
+      </div>
+    </header>
+    <nav class="kino-nav" aria-label="Разделы"><div>
+      <button class="active" data-page="afisha">Афиша</button><button data-page="seances">Сеансы</button>
+      <a href="https://kinostar-groznymall.com/not_movies" target="_blank" rel="noopener">Не кино</a>
+      <a href="https://kinostar-groznymall.com/pushkin_card" target="_blank" rel="noopener">Пушкинская карта</a>
+      <a href="#contacts">Контакты</a><span class="nav-feature">Теперь с прогулкой по залу <i>3D</i></span>
+    </div></nav>
+    <main>
+      <section id="scheduleView" class="schedule-view">
+        <div class="calendar-strip"><div id="scheduleDates" aria-label="Дата сеанса"></div><button id="refreshSchedule" aria-label="Обновить расписание">↻ Обновить</button></div>
+        <div class="schedule-heading"><div><h1 id="scheduleTitle">Афиша</h1><p id="scheduleCount"></p></div><label class="film-search"><span>⌕</span><input id="filmSearch" type="search" placeholder="Найти фильм" aria-label="Найти фильм"></label></div>
+        <div class="schedule-info"><p id="scheduleStatus" role="status"></p><span>Время — Грозный (МСК)</span></div>
+        <div class="tour-banner"><div class="tour-icon" aria-hidden="true">3D</div><div><b>Ваш поход в кино начинается здесь</b><p>Возьмите попкорн, прогуляйтесь до своего зала и выберите кресло.</p></div><span>7 залов · свободная прогулка ↗</span></div>
+        <div class="schedule-filters"><button class="active" data-filter="all">Все фильмы</button><button data-filter="premiere">Премьеры</button><button data-filter="for_kids">Для детей</button><label>Зал <select id="hallFilter" aria-label="Фильтр по залу"><option value="">Все залы</option></select></label></div>
+        <div id="movieList" class="movie-list"></div><div id="scheduleEmpty" hidden><h2>Сеансов не найдено</h2><p>Попробуйте другое название фильма или сбросьте фильтры.</p><button id="resetFilters">Сбросить фильтры</button></div>
+      </section>
+      <div id="hallView" hidden>
+        <div class="hall-back"><button id="backSchedule">← К расписанию</button><span>Сеанс / Выбор места / 3D-прогулка</span></div>
+      <section class="movie-bar">
+        <img class="movie-poster" id="selectedPoster" alt="">
+        <div class="movie-info"><div class="eyebrow" id="selectedDate"></div><h1 id="selectedTitle"></h1><p id="selectedMeta"></p></div>
+        <div class="session-picker"><span>Сеанс</span><strong id="selectedTime"></strong><small id="selectedHall"></small></div>
+      </section>
+
+      <section class="workspace" id="seats">
+        <p class="demo-note">3D-макет для знакомства с функцией. Геометрия и занятость кресел демонстрационные. Реальные места и точная цена доступны при покупке на сайте кинотеатра.</p><div class="section-heading"><div><div class="eyebrow">Пример зала</div><h2>Выберите точку обзора</h2></div><div class="legend"><span><i class="dot available"></i>Свободно</span><span><i class="dot selected"></i>Ваш выбор</span><span><i class="dot taken"></i>Занято</span></div></div>
+        <div class="seat-layout">
+          <div class="map-card">
+            <div class="screen-wrap"><div class="screen-glow"></div><div class="screen">ЭКРАН</div></div>
+            <div class="seat-map" id="seatMap"></div>
+            <div class="map-footer"><span>Ряд 1</span><span>Ряд 8</span></div>
+          </div>
+          <aside class="view-card">
+            <div class="view-top"><span class="eyebrow">Вид с места</span><span class="quality-pill"><span class="quality-dot"></span><span id="qualityLabel">Отличный</span></span></div>
+            <div class="theater-view"><div class="view-screen"></div><div class="view-aisle"></div><div class="view-seat"></div><div class="view-caption"><b id="placeTitle">Ряд 5, место 12</b><span id="placeDescription">Центр зала · оптимальная дистанция</span></div></div>
+            <button class="walk-button" id="walkBtn">Войти в кинотеатр · 3D</button><p id="walkError" role="status" hidden></p><div class="view-stats"><div><span>Обзор</span><b id="qualityScore">94/100</b></div><div><span>До экрана</span><b id="distance">12,4 м</b></div><div><span>Угол</span><b id="angle">0°</b></div></div>
+            <div class="recommendation"><span class="spark">✦</span><p><b>Мы рекомендуем</b><br>Место почти по центру — экран в поле зрения без поворота головы.</p></div>
+            <div class="checkout"><div><span>Цена сеанса</span><strong id="total"></strong></div><a id="officialBooking" target="_blank" rel="noopener">Купить билет ↗</a></div><p class="booking-note">Покупка на сайте кинотеатра. Место нужно выбрать там.</p>
+          </aside>
+        </div>
+      </section>
+      </div>
+    </main>
+    <footer id="contacts" class="kino-footer"><img src="assets/kinostar-logo.svg" alt="Киностар"><div><b>Киностар · Грозный Молл</b><p>Грозный, пр. Путина, 40</p><a href="https://kinostar-groznymall.com/contacts" target="_blank" rel="noopener">Контакты кинотеатра ↗</a></div><div><b>Перед покупкой</b><p>Все сеансы начинаются с рекламно-информационного блока.</p><a href="https://kinostar-groznymall.com/" target="_blank" rel="noopener">Официальная афиша ↗</a></div></footer>
+  </div>
+  <section class="walk-mode" id="walkMode" role="dialog" aria-modal="true" aria-label="Прогулка по кинотеатру" hidden>
+    <canvas id="walkCanvas" tabindex="0" aria-label="3D-кинотеатр. WASD — ходьба, мышь — осмотр, E — действие, сесть или встать."></canvas>
+    <div class="walk-top">
+      <button id="closeWalk">← К схеме зала</button>
+      <div class="walk-title"><span id="walkCinema">Киностар / 3D-макет</span><b id="walkPlace">Свободная прогулка</b></div>
+      <div class="walk-tools"><button id="toLobby" hidden>В коридор</button><button id="centerView">К моему залу</button><button id="mouseLook">Управлять мышью</button><button id="walkSound" aria-pressed="false">Звук выключен</button><button id="walkHelp" aria-label="Подсказка по управлению">Как гулять</button><button id="walkBag">Мой заказ · 0 ₽</button></div>
+    </div>
+    <div class="walk-crosshair" aria-hidden="true"></div>
+    <div class="walk-prompt"><span id="walkState">Вы стоите</span><p id="seatHint" aria-live="polite">Подойдите к свободному креслу</p><button id="interactSeat" disabled>Сесть · E</button></div>
+    <div id="walkNotice" role="status" hidden></div>
+    <aside class="walk-minimap"><div class="mini-heading"><b id="miniCaption">Ваш зал выделен</b><button id="toggleMiniMap" aria-expanded="true" aria-controls="miniMapContent">Свернуть</button></div><div id="miniMapContent"><canvas id="miniMap" width="360" height="420" role="img" aria-label="План кинотеатра и ваше положение"></canvas><div class="mini-legend"><span><i class="mini-you"></i>Вы</span><span><i class="mini-selected"></i><span id="miniSelected">Ваш зал</span></span></div></div></aside>
+    <div class="walk-bottom">
+      <div class="move-pad" aria-label="Ходьба: удерживайте кнопку">
+        <button data-walk="forward" aria-label="Идти вперёд">↑</button>
+        <button data-walk="left" aria-label="Идти влево">←</button>
+        <button data-walk="back" aria-label="Идти назад">↓</button>
+        <button data-walk="right" aria-label="Идти вправо">→</button>
+      </div>
+      <div class="walk-help"><p><kbd>W A S D</kbd> ходить <kbd>Shift</kbd> быстрее <kbd>E</kbd> сесть / встать</p><span>Мышь с зажатой кнопкой — осмотр · Esc — отпустить мышь</span></div>
+      <div class="walk-choice"><span id="walkChoice"></span><button id="returnToSeat">К выбранному креслу</button><button class="buy-walk" id="walkBuy">Выбрать это место</button></div>
+    </div>
+    <div id="walkIntro" class="walk-intro" hidden>
+      <section class="walk-intro-card" role="dialog" aria-modal="true" aria-labelledby="walkIntroTitle" aria-describedby="walkIntroText">
+        <span class="intro-eyebrow">КИНОСТАР · 3D-ПРОГУЛКА</span>
+        <h2 id="walkIntroTitle">Почувствуйте себя в кино</h2>
+        <p id="walkIntroText">Загляните в кинобар, найдите свой зал на плане и выберите вид с кресла.</p>
+        <ul><li><b>Двигайтесь</b><span>WASD или стрелки на экране</span></li><li><b>Осмотритесь</b><span>Тяните сцену мышью или пальцем</span></li><li><b>Войдите и сядьте</b><span>Кнопка действия или клавиша E</span></li></ul>
+        <p class="intro-audio">Тихие звуки кинотеатра включаются после взаимодействия. Кнопка звука всегда в верхней панели.</p>
+        <button id="startWalk">Начать прогулку</button>
+      </section>
+    </div>
+  </section>
+  <dialog id="commerceDialog" class="commerce-dialog" aria-labelledby="commerceTitle"><div id="commerceBody"></div></dialog>
+  <dialog id="accountDialog" class="account-dialog" aria-labelledby="accountTitle"><form id="accountForm"><button type="button" id="closeAccount" class="account-close" aria-label="Закрыть">×</button><h2 id="accountTitle">Войти</h2><p>Ваш аккаунт сохранится между посещениями.</p><label>Электронная почта<input id="accountEmail" type="email" autocomplete="email" required></label><label>Пароль<input id="accountPassword" type="password" autocomplete="current-password" minlength="10" required></label><p id="accountError" role="alert" hidden></p><button id="accountSubmit" type="submit">Войти</button><button id="accountToggle" type="button">Создать аккаунт</button></form></dialog>
+  <script src="vendor/three.min.js"></script>
+  <script src="hall-model.js"></script>
+  <script src="hall-scene.js"></script>
+  <script src="lobby.js"></script>
+  <script src="cinema-audio.js"></script>
+  <script src="catalog.js"></script>
+  <script src="schedule-source.js"></script>
+  <script src="schedule-data.js"></script>
+  <script src="app.js"></script>
+  <script src="schedule.js"></script>
+  <script src="walk.js"></script>
+  <script src="commerce.js"></script>
+  <script src="account.js"></script>
+</body>
+</html>
