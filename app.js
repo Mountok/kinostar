@@ -30,13 +30,14 @@ function selectSeat(id) {
     button.classList.toggle('selected', key === id);
     button.setAttribute('aria-pressed', String(key === id));
   }
-  const angle = Math.round(Math.atan2(Math.abs(q.x), q.z) * 180 / Math.PI);
+  const screenDistance = q.z - HallModel.config.screen.z;
+  const angle = Math.round(Math.atan2(Math.abs(q.x), screenDistance) * 180 / Math.PI);
   const score = Math.max(40, Math.round(98 - angle * 0.7 - Math.abs(q.row - 5) * 3));
   document.querySelector('#placeTitle').textContent = 'Ряд ' + q.row + ', место ' + q.seat;
   document.querySelector('#placeDescription').textContent = Math.abs(q.x) < 2 ? 'Ближе к центру зала' : 'Боковой обзор экрана';
   document.querySelector('#qualityScore').textContent = score + '/100';
   document.querySelector('#qualityLabel').textContent = score > 88 ? 'Отличный' : score > 74 ? 'Хороший' : 'Под углом';
-  document.querySelector('#distance').textContent = Math.hypot(q.x, q.z).toFixed(1).replace('.', ',') + ' м';
+  document.querySelector('#distance').textContent = Math.hypot(q.x, screenDistance).toFixed(1).replace('.', ',') + ' м';
   document.querySelector('#angle').textContent = angle + '°';
   document.querySelector('#total').textContent = sessionPrice();
   document.querySelector('.recommendation p').textContent = 'Оценка обзора приблизительная. Зайдите в зал, осмотритесь и сравните места своими глазами.';

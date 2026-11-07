@@ -4,14 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Киностар — афиша, сеансы и прогулка по залу</title>
+  <link rel="icon" type="image/svg+xml" href="assets/kinostar-logo.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="walk.css" />
   <link rel="stylesheet" href="kinostar.css" />
   <link rel="stylesheet" href="commerce.css" />
   <link rel="stylesheet" href="account.css" />
+  <link rel="stylesheet" href="walk.css" />
 </head>
 <body>
   <div class="app-shell">
@@ -72,12 +73,12 @@
     <div class="walk-top">
       <button id="closeWalk">← К схеме зала</button>
       <div class="walk-title"><span id="walkCinema">Киностар / 3D-макет</span><b id="walkPlace">Свободная прогулка</b></div>
-      <div class="walk-tools"><button id="toLobby" hidden>В коридор</button><button id="centerView">К моему залу</button><button id="mouseLook">Управлять мышью</button><button id="walkBag">Мой заказ · 0 ₽</button></div>
+      <div class="walk-tools"><button id="toLobby" hidden>В коридор</button><button id="centerView">К моему залу</button><button id="mouseLook">Управлять мышью</button><button id="walkSound" aria-pressed="false">Звук выключен</button><button id="walkHelp" aria-label="Подсказка по управлению">Как гулять</button><button id="walkBag">Мой заказ · 0 ₽</button></div>
     </div>
     <div class="walk-crosshair" aria-hidden="true"></div>
     <div class="walk-prompt"><span id="walkState">Вы стоите</span><p id="seatHint" aria-live="polite">Подойдите к свободному креслу</p><button id="interactSeat" disabled>Сесть · E</button></div>
     <div id="walkNotice" role="status" hidden></div>
-    <aside class="walk-minimap"><canvas id="miniMap" width="180" height="210" aria-label="План кинотеатра и ваше положение"></canvas><span id="miniCaption">Ваш зал выделен</span></aside>
+    <aside class="walk-minimap"><div class="mini-heading"><b id="miniCaption">Ваш зал выделен</b><button id="toggleMiniMap" aria-expanded="true" aria-controls="miniMapContent">Свернуть</button></div><div id="miniMapContent"><canvas id="miniMap" width="360" height="420" role="img" aria-label="План кинотеатра и ваше положение"></canvas><div class="mini-legend"><span><i class="mini-you"></i>Вы</span><span><i class="mini-selected"></i><span id="miniSelected">Ваш зал</span></span></div></div></aside>
     <div class="walk-bottom">
       <div class="move-pad" aria-label="Ходьба: удерживайте кнопку">
         <button data-walk="forward" aria-label="Идти вперёд">↑</button>
@@ -88,6 +89,16 @@
       <div class="walk-help"><p><kbd>W A S D</kbd> ходить <kbd>Shift</kbd> быстрее <kbd>E</kbd> сесть / встать</p><span>Мышь с зажатой кнопкой — осмотр · Esc — отпустить мышь</span></div>
       <div class="walk-choice"><span id="walkChoice"></span><button id="returnToSeat">К выбранному креслу</button><button class="buy-walk" id="walkBuy">Выбрать это место</button></div>
     </div>
+    <div id="walkIntro" class="walk-intro" hidden>
+      <section class="walk-intro-card" role="dialog" aria-modal="true" aria-labelledby="walkIntroTitle" aria-describedby="walkIntroText">
+        <span class="intro-eyebrow">КИНОСТАР · 3D-ПРОГУЛКА</span>
+        <h2 id="walkIntroTitle">Почувствуйте себя в кино</h2>
+        <p id="walkIntroText">Загляните в кинобар, найдите свой зал на плане и выберите вид с кресла.</p>
+        <ul><li><b>Двигайтесь</b><span>WASD или стрелки на экране</span></li><li><b>Осмотритесь</b><span>Тяните сцену мышью или пальцем</span></li><li><b>Войдите и сядьте</b><span>Кнопка действия или клавиша E</span></li></ul>
+        <p class="intro-audio">Тихие звуки кинотеатра включаются после взаимодействия. Кнопка звука всегда в верхней панели.</p>
+        <button id="startWalk">Начать прогулку</button>
+      </section>
+    </div>
   </section>
   <dialog id="commerceDialog" class="commerce-dialog" aria-labelledby="commerceTitle"><div id="commerceBody"></div></dialog>
   <dialog id="accountDialog" class="account-dialog" aria-labelledby="accountTitle"><form id="accountForm"><button type="button" id="closeAccount" class="account-close" aria-label="Закрыть">×</button><h2 id="accountTitle">Войти</h2><p>Ваш аккаунт сохранится между посещениями.</p><label>Электронная почта<input id="accountEmail" type="email" autocomplete="email" required></label><label>Пароль<input id="accountPassword" type="password" autocomplete="current-password" minlength="10" required></label><p id="accountError" role="alert" hidden></p><button id="accountSubmit" type="submit">Войти</button><button id="accountToggle" type="button">Создать аккаунт</button></form></dialog>
@@ -95,6 +106,7 @@
   <script src="hall-model.js"></script>
   <script src="hall-scene.js"></script>
   <script src="lobby.js"></script>
+  <script src="cinema-audio.js"></script>
   <script src="catalog.js"></script>
   <script src="schedule-source.js"></script>
   <script src="schedule-data.js"></script>

@@ -43,10 +43,17 @@
     block(20,2.2,25,.16,4.4,6,wall);block(0,2.2,0,8,4.4,.16,wall);
     for(let z=3;z<28;z+=4){block(0,4.35,z,5,.03,.06,light);block(-3.88,.2,z,.02,.035,3.8,orange);}
     for(let x=6;x<20;x+=4)block(x,4.35,25,.06,.03,4,light);
+    const hallSigns=[];
     for(const d of doors) {
       const side=d.side==='left'?1:d.side==='right'?-1:0;
       const mesh=block(d.x,1.35,d.z,side?.12:1.65,2.7,side?1.65:.12,black);
-      sign('ЗАЛ '+d.hall,d.x+side*.1,3.1,d.z+(side?0:-.1),2,side?side*Math.PI/2:Math.PI);
+      const label=sign('ЗАЛ '+d.hall,d.x+side*.1,3.1,d.z+(side?0:-.1),2,side?side*Math.PI/2:Math.PI);
+      label.material.toneMapped=false;
+      const frameMaterial=new T.MeshBasicMaterial({color:'#6b5285'});
+      const frame=block(d.x+side*.05,1.35,d.z+(side?0:-.05),side?.12:1.9,2.95,side?1.9:.12,frameMaterial);
+      // The door sits in front of its coloured frame when seen from the corridor.
+      mesh.position.x+=side*.09;mesh.position.z+=side?0:-.09;
+      hallSigns.push({hall:d.hall,label,frame});
       block(d.x+side*.08,.07,d.z+(side?0:-.1),side?.06:1.65,.04,side?1.65:.06,orange);
       mesh.userData.hall=d.hall;
     }
@@ -65,7 +72,8 @@
     for(let i=0;i<5;i++)block(5+i*.5,2,22.3,.05,.5,.2,gold);
     sign('ЗАЛЫ 6–7  →',0,3.2,21.9,3.4,Math.PI);
     sign('КИНОСТАР',0,3.1,.15,4);
-    return {scene,doors};
+    function highlightHall(hall){for(const s of hallSigns){const selected=s.hall===hall;s.frame.material.color.set(selected?'#ff6537':'#6b5285');s.label.material.color.set(selected?'#ffbc91':'#ffffff');}}
+    return {scene,doors,highlightHall};
   }
   const value={doors,move,valid,nearest,build};
   if(typeof module!=='undefined')module.exports=value;else root.CinemaLobby=value;

@@ -46,7 +46,7 @@ function createApp(options={}){
   }
   async function verify(o){if(o.mode==='yookassa_test'&&o.paymentId&&!['succeeded','canceled'].includes(o.status))return acceptPayment(o,await provider('/'+encodeURIComponent(o.paymentId)));return o;}
   async function readBody(req){let size=0,chunks=[];for await(const c of req){size+=c.length;if(size>16384)throw fail(413,'Слишком большой запрос');chunks.push(c);}try{return JSON.parse(Buffer.concat(chunks).toString()||'{}');}catch{throw fail(400,'Неверный формат запроса');}}
-  const staticNames=new Set(['index.html','styles.css','walk.css','kinostar.css','commerce.css','account.css','app.js','hall-model.js','hall-scene.js','lobby.js','catalog.js','schedule-source.js','schedule-data.js','schedule.js','walk.js','commerce.js','account.js']);
+  const staticNames=new Set(['index.html','styles.css','walk.css','kinostar.css','commerce.css','account.css','app.js','hall-model.js','hall-scene.js','lobby.js','cinema-audio.js','catalog.js','schedule-source.js','schedule-data.js','schedule.js','walk.js','commerce.js','account.js']);
   const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.jpg':'image/jpeg','.png':'image/png','.svg':'image/svg+xml','.txt':'text/plain; charset=utf-8'};
   const server=http.createServer(async(req,res)=>{
     const send=(status,value,extra={})=>{res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer',...extra});res.end(JSON.stringify(value));};
@@ -112,7 +112,7 @@ function createApp(options={}){
       }
       if(!['GET','HEAD'].includes(req.method))throw fail(405,'Метод не поддерживается');
       const name=decodeURIComponent(route==='/'?'index.html':route.slice(1));
-      if(!(staticNames.has(name)||/^(assets|vendor)\/[a-zA-Z0-9_.-]+$/.test(name))||name.includes('..'))throw fail(404,'Не найдено');
+      if(!(staticNames.has(name)||/^(assets|vendor)\/[a-zA-Z0-9_.-]+$/.test(name)||/^assets\/posters\/\d+\.jpg$/.test(name))||name.includes('..'))throw fail(404,'Не найдено');
       const file=path.join(ROOT,name);let content;try{content=fs.readFileSync(file);}catch{throw fail(404,'Не найдено');}
       res.writeHead(200,{'Content-Type':mime[path.extname(file)]||'application/octet-stream','Cache-Control':'no-cache','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer'});res.end(req.method==='HEAD'?undefined:content);
     }catch(e){send(e.statusCode||500,{error:e.statusCode?e.message:'Не удалось обработать заказ. Попробуйте ещё раз.'});}

@@ -1,7 +1,10 @@
 /* Shared dimensions for the seating plan, camera and collision geometry. */
 (function (root) {
   'use strict';
-  const config = Object.freeze({ rows: 8, cols: 14, halfWidth: 7.7, front: 1.2, back: 19.2, radius: 0.18, rowGap: 1.55, rise: 0.18 });
+  const config = Object.freeze({ rows: 8, cols: 14, halfWidth: 11.7, front: -3.2, back: 19.2, radius: 0.18, rowGap: 1.55, rise: 0.18,
+    room: Object.freeze({ width: 24, height: 11.6, front: -4.6, back: 19.8 }),
+    screen: Object.freeze({ width: 22.32, height: 9.306, y: 6.1, z: -4.25 }),
+    projector: Object.freeze({ x: 0, y: 5.2, z: 19.1 }) });
   const seats = [];
   for (let row = 1; row <= config.rows; row++) {
     for (let seat = 1; seat <= config.cols; seat++) {

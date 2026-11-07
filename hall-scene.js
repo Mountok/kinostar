@@ -8,23 +8,25 @@ window.createCinemaHall = function(T, model, screenTexture) {
     leather=material('#ffffff',.52),black=material('#242626',.49),metal=material('#555956',.3,.7),
     seam=material('#777b75',.9),red=new T.MeshBasicMaterial({color:'#ff1737'}),white=new T.MeshBasicMaterial({color:'#e8f1ff'});
   const box=new T.BoxGeometry(1,1,1);
+  const {room,screen:screenSize,projector:projectorPosition}=model.config;
+  const depth=room.back-room.front,centerZ=(room.back+room.front)/2;
   const block=(x,y,z,w,h,d,m)=>{const o=new T.Mesh(box,m);o.position.set(x,y,z);o.scale.set(w,h,d);scene.add(o);return o;};
-  scene.add(new T.HemisphereLight('#f1f5ff','#7c7670',1.15));
-  for(const z of [4,11,17]) {const light=new T.PointLight('#e7eeff',.8,21,1.3);light.position.set(0,5,z);scene.add(light);}
-  block(0,-.14,10,16,.28,20,floor);block(0,7.8,10,16,.2,20,wall);
-  block(0,3.9,0,16,7.8,.2,wall);block(0,3.9,19.8,16,7.8,.2,wall);
+  scene.add(new T.HemisphereLight('#d8ddff','#51454d',.65));
+  for(const z of [10,17]) {const light=new T.PointLight('#e7eeff',.55,24,1.3);light.position.set(0,6,z);scene.add(light);}
+  block(0,-.14,centerZ,room.width,.28,depth,floor);block(0,room.height,centerZ,room.width,.2,depth,wall);
+  for(const z of [room.front,room.back])block(0,room.height/2,z,room.width,room.height,.2,wall);
   for(const side of [-1,1]) {
-    block(side*7.95,3.9,10,.15,7.8,20,wall);
-    for(let z=2.4;z<19;z+=3.2){
-      block(side*7.82,3.9,z,.1,6.1,2.6,panel);
-      block(side*7.73,4.25,z+1.4,.04,5.65,.11,white);
-      block(side*7.69,4.25,z+1.54,.02,5.65,.025,white);
+    block(side*(room.width/2-.05),room.height/2,centerZ,.15,room.height,depth,wall);
+    for(let z=-2;z<19;z+=3.2){
+      block(side*(room.width/2-.18),5.6,z,.1,9.4,2.6,panel);
+      block(side*(room.width/2-.27),4.25,z+1.4,.04,5.65,.11,white);
+      block(side*(room.width/2-.31),4.25,z+1.54,.02,5.65,.025,white);
     }
-    for(let z=3;z<19;z+=3.1)block(side*5.7,7.65,z,.15,.025,.15,white);
+    for(let z=3;z<19;z+=3.1)block(side*5.7,room.height-.15,z,.15,.025,.15,white);
   }
   for(let row=2;row<=8;row++){
     const start=3.97+(row-1)*model.config.rowGap,end=row===8?19.8:start+model.config.rowGap,y=(row-1)*model.config.rise;
-    block(0,y/2,(start+end)/2,15.8,y,end-start,floor);
+    block(0,y/2,(start+end)/2,room.width-.2,y,end-start,floor);
     for(const x of [-6.75,6.75])block(x,y+.012,start+.018,1.85,.025,.045,red);
   }
   // Front handrails leave both walking routes clear.
@@ -33,9 +35,16 @@ window.createCinemaHall = function(T, model, screenTexture) {
     block(side*4,.96,3.3,2.85,.045,.045,metal);
     block(side*4,.48,3.3,2.85,.03,.03,metal);
   }
-  block(0,4.4,.24,12.8,5.45,.18,black);
-  const screen=new T.Mesh(new T.PlaneGeometry(12.4,5.17),new T.MeshBasicMaterial({map:screenTexture()}));screen.position.set(0,4.4,.35);scene.add(screen);
-  block(0,5.2,19.6,1.3,.65,.4,black);block(0,5.2,19.35,.25,.22,.1,white);
+  block(0,screenSize.y,screenSize.z-.12,screenSize.width+.32,screenSize.height+.32,.18,black);
+  const screen=new T.Mesh(new T.PlaneGeometry(screenSize.width,screenSize.height),new T.MeshBasicMaterial({map:screenTexture(),toneMapped:false}));screen.position.set(0,screenSize.y,screenSize.z);scene.add(screen);
+  // Broad, inexpensive light spill; no shadow maps or post-processing on mobile.
+  for(const x of [-8,0,8]){const glow=new T.PointLight(x===0?'#c2cbff':'#b99bff',1.3,20,1.5);glow.position.set(x,4,screenSize.z+1.8);scene.add(glow);}
+  const projector=block(projectorPosition.x,projectorPosition.y,projectorPosition.z,1.3,.65,.8,metal);
+  block(0,5.65,19.25,.16,.25,.2,black);
+  const lens=new T.Mesh(new T.CylinderGeometry(.13,.17,.16,24),white);lens.rotation.x=Math.PI/2;lens.position.set(0,5.2,18.65);scene.add(lens);
+  block(.48,5.25,18.68,.06,.06,.025,new T.MeshBasicMaterial({color:'#8ee5d4'}));
+  for(let i=0;i<5;i++)block(-.42+i*.15,5.12,18.69,.05,.23,.02,black);
+  const projectorLight=new T.PointLight('#d8e6ff',.45,5);projectorLight.position.set(0,5.3,18.4);scene.add(projectorLight);
   block(6.7,2.45,19.6,1.45,2.4,.16,black);
   const c=document.createElement('canvas');c.width=512;c.height=128;const g=c.getContext('2d');g.fillStyle='#075637';g.fillRect(0,0,512,128);g.fillStyle='white';g.font='bold 62px sans-serif';g.textAlign='center';g.fillText('В КОРИДОР',256,86);
   const t=new T.CanvasTexture(c);t.encoding=T.sRGBEncoding;const exit=new T.Mesh(new T.PlaneGeometry(1.6,.4),new T.MeshBasicMaterial({map:t}));exit.position.set(6.7,3.95,19.48);exit.rotation.y=Math.PI;scene.add(exit);
@@ -57,5 +66,5 @@ window.createCinemaHall = function(T, model, screenTexture) {
   instances(box,seam,model.seats.flatMap(q=>[-1,1].map(s=>({p:[q.x+s*.17,q.y+.83,q.z+.137],s:[.003,.41,.003],rx:-.13}))));
   instances(box,metal,model.seats.map(q=>({p:[q.x,q.y+.18,q.z],s:[.24,.36,.3]})));
   const marker=new T.Mesh(new T.RingGeometry(.27,.30,32),new T.MeshBasicMaterial({color:'#ff6537',side:T.DoubleSide}));marker.rotation.x=-Math.PI/2;scene.add(marker);
-  return {scene,screen,backs,bases,marker};
+  return {scene,screen,backs,bases,marker,projector};
 };
